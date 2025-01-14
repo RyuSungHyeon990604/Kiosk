@@ -28,6 +28,7 @@ public class Main {
                 System.out.println(choiceItem.getDescription());
             }catch (Exception e){
                 System.out.println("존재하지 않는 메뉴입니다.");
+                sc.nextLine();
             }
         }
         System.out.println("프로그램을 종료합니다.");
