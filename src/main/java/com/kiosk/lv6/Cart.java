@@ -13,24 +13,9 @@ public class Cart {
         return cart.isEmpty();
     }
 
-    public void showCart(){
-        int n = 1;
-        List<MenuItem> items = new ArrayList<>(cart.keySet());
-        items.sort((a,b)->a.getCategory().getId() - b.getCategory().getId());
-        for (MenuItem item : items) {
-            System.out.println((n++)+". "+item+": "+cart.get(item)+"개");
-        }
-    }
-
-    public MenuItem removeItem(int i) {
-        List<MenuItem> items = new ArrayList<>(cart.keySet());
-        items.sort((a,b)->a.getCategory().getId() - b.getCategory().getId());
-        int rem = cart.get(items.get(i))-1;
-        if(rem <= 0)
-            cart.remove(items.get(i));
-        else
-            cart.put(items.get(i),rem);
-        return items.get(i);
+    public MenuItem removeItem(MenuItem item) {
+        cart.remove(item);
+        return item;
     }
 
     public int getQuantity(MenuItem item){
@@ -43,6 +28,13 @@ public class Cart {
 
     public int getSize(){
         return cart.size();
+    }
+
+    public List<MenuItem> getItems(){
+        List<MenuItem> items = new ArrayList<>(cart.keySet());
+        //우선순위대로 리스트를 반환
+        items.sort((a,b)->a.getCategory().getShowSeq() - b.getCategory().getShowSeq());
+        return items;
     }
 
     public void clear() {

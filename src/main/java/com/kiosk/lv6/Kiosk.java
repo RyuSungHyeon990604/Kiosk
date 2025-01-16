@@ -152,8 +152,8 @@ public class Kiosk {
 
     public void order() {
         System.out.println("아래와 같이 주문 하시겠습니까?");
-        System.out.println("[ Orders ]");
-        cart.showCart();
+        List<MenuItem> items = cart.getItems();
+        displayCart(items);
 
         double totalPrice = cart.getTotalPrice();
         System.out.println("[ Total ]");
@@ -177,12 +177,12 @@ public class Kiosk {
         DiscountType selectedDiscountType = discountTypes[choice - 1];
         double finalPrice = selectedDiscountType.applyDiscount(totalPrice);
 
-        System.out.println("주문이 완료외었습니다. 금액은 " + finalPrice * 1000 + "입니다.");
+        System.out.println("주문이 완료되었습니다. 금액은 " + finalPrice * 1000 + "입니다.");
     }
 
     public void removeCart(){
-        System.out.println("[ Orders ]");
-        cart.showCart();
+        List<MenuItem> items = cart.getItems();
+        displayCart(items);
 
         System.out.println("삭제할 메뉴를 선택해주세요");
         int remove = getInputNumber();
@@ -190,8 +190,16 @@ public class Kiosk {
             System.out.println("올바른 번호를 입력해주세요");
             remove = getInputNumber();
         }
-        MenuItem removedItem = cart.removeItem(remove-1);
-        System.out.println(removedItem.getName()+"1개를 장바구니에서 제거했습니다.");
+        MenuItem removedItem = items.get(remove-1);
+        cart.removeItem(removedItem);
+        System.out.println(removedItem.getName()+"를 장바구니에서 제거했습니다.");
+    }
+
+    public void displayCart(List<MenuItem> items){
+        System.out.println("[ Orders ]");
+        for (int i = 0; i < items.size(); i++) {
+            System.out.printf("%2d. %s   |  %d개\n", i+1, items.get(i),cart.getQuantity(items.get(i)));
+        }
     }
 
     public void orderCancel() {
