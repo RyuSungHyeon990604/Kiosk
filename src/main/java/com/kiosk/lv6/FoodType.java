@@ -5,16 +5,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum FoodType {
-    DRINK("DRINK",2),
-    BURGER("BURGER",1),
-    DESSERT("DESSERT",3),
-    S("S",4);
+    DRINK("DRINK",2,2),
+    BURGER("BURGER",1,1),
+    DESSERT("DESSERT",3,3),
+    EVENT("EVENT",4,0);
     private final String label;
     private final int id;
+    private final int showSeq;
     private static final Map<Integer, FoodType> foodTypeMap = new HashMap<>();
-    FoodType(String label, int id) {
+    FoodType(String label, int id, int showSeq) {
         this.label = label;
         this.id = id;
+        this.showSeq = showSeq;
     }
     static {
         for (FoodType mc : FoodType.values()) {
@@ -29,6 +31,9 @@ public enum FoodType {
     }
     public int getId() {
         return id;
+    }
+    public int getShowSeq() {
+        return showSeq;
     }
     public static FoodType getCategory(int choice) {
         if(!foodTypeMap.containsKey(choice)) {
