@@ -12,7 +12,7 @@ public enum FoodType {
     private final String label;
     private final int id;
     private final int showSeq;
-//    private static final Map<Integer, FoodType> foodTypeMap = new HashMap<>();
+    private static final Map<Integer, FoodType> foodTypeMap = new HashMap<>();
 
     FoodType(String label, int id, int showSeq) {
         this.label = label;
@@ -20,14 +20,14 @@ public enum FoodType {
         this.showSeq = showSeq;
     }
 
-//    static {
-//        for (FoodType mc : FoodType.values()) {
-//            if (foodTypeMap.containsKey(mc.id)) {
-//                throw new IllegalArgumentException("Duplicate key: " + mc.id);
-//            }
-//            foodTypeMap.put(mc.id, mc);
-//        }
-//    }
+    static {
+        for (FoodType mc : FoodType.values()) {
+            if (foodTypeMap.containsKey(mc.id)) {
+                throw new IllegalArgumentException("Duplicate key: " + mc.id);
+            }
+            foodTypeMap.put(mc.id, mc);
+        }
+    }
 
     public String getLabel() {
         return label;
@@ -42,11 +42,10 @@ public enum FoodType {
     }
 
     public static FoodType getCategory(int choice) {
-        for (FoodType type : values()) {
-            if(type.id == choice)
-                return type;
+        if (!foodTypeMap.containsKey(choice)) {
+            return null;
         }
-        return null;
+        return foodTypeMap.get(choice);
     }
 
     public static FoodType[] getAll() {
