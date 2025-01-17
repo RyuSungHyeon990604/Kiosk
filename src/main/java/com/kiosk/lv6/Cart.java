@@ -31,10 +31,9 @@ public class Cart {
     }
 
     public List<MenuItem> getItems(){
-        List<MenuItem> items = new ArrayList<>(cart.keySet());
-        //우선순위대로 리스트를 반환
-        items.sort((a,b)->a.getCategory().getShowSeq() - b.getCategory().getShowSeq());
-        return items;
+        return cart.keySet().stream()
+                .sorted(Comparator.comparingInt(item ->item.getCategory().getShowSeq()))
+                .toList();
     }
 
     public void clear() {
