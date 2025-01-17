@@ -177,7 +177,9 @@ public class Kiosk {
         DiscountType selectedDiscountType = discountTypes[choice - 1];
         double finalPrice = selectedDiscountType.applyDiscount(totalPrice);
 
-        System.out.println("주문이 완료되었습니다. 금액은 " + finalPrice * 1000 + "입니다.");
+        System.out.printf("주문이 완료되었습니다. 금액은 %.1f 입니다.\n",finalPrice * 1000);
+        //주문을 완료했으니 장바구니를 비운다
+        cart.clear();
     }
 
     public void removeCart(){
