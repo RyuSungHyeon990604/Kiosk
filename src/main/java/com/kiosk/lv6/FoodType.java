@@ -42,8 +42,8 @@ public enum FoodType {
         return foodTypeMap.get(choice);
     }
     public static FoodType[] getAll() {
-        FoodType[] values = values();
-        Arrays.sort(values, (a,b) -> a.id - b.id);
-        return values;
+        return Arrays.stream(values())
+                .sorted((a,b)->a.getId() - b.getId())
+                .toArray(FoodType[]::new);
     }
 }
