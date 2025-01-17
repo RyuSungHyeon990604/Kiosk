@@ -14,8 +14,8 @@ public class Kiosk {
 
     public void start() {
         menu.loadData();
-        foodTypeSize = FoodType.values().length;
-        orderMenuSize = OrderMenu.values().length;
+        foodTypeSize = FoodType.getAll().length;
+        orderMenuSize = OrderMenu.getAll().length;
         while (true) {
             //햄버거, 음료수, 디저트 .. 카테고리 선택
             displayCategory();
@@ -66,7 +66,7 @@ public class Kiosk {
             OrderMenu[] orderMenus = OrderMenu.values();
             System.out.println("[ ORDER MENU ]");
             for (i = 0; i < orderMenus.length; i++) {
-                System.out.println(orderMenus[i].getId()+". "+orderMenus[i].getName() + "    |" + orderMenus[i].getDescription());
+                System.out.println(orderMenus[i].getId() + ". " + orderMenus[i].getName() + "    |" + orderMenus[i].getDescription());
             }
         }
         System.out.printf("%d. %s\n", 0, "종료");
@@ -76,12 +76,14 @@ public class Kiosk {
     /**
      * <pre>카테고리번호를 입력받는 함수</pre>
      * <pre>장바구니의 상태에따라 입력받는 정수의 범위를 ORDER MENU까지 확장</pre>
+     *
      * @return 카테고리 or ORDERMENU 번호
      */
     public int selectCategoryOrOrderMenu() {
         int id = getInputNumber();
-        while ((cart.isEmpty() && (id < 0 || id > foodTypeSize))
-                || (!cart.isEmpty() && (id < 0 || id > foodTypeSize + orderMenuSize))
+        while (id < 0
+                || (cart.isEmpty() && id > foodTypeSize)
+                || (!cart.isEmpty() && id > foodTypeSize + orderMenuSize)
         ) {
             System.out.println("올바른 번호를 선택해주세요");
             id = getInputNumber();
@@ -111,6 +113,7 @@ public class Kiosk {
 
     /**
      * 숫자입력 받는 함수
+     *
      * @return 입력한 숫자
      */
     public int getInputNumber() {
@@ -127,6 +130,7 @@ public class Kiosk {
 
     /**
      * 확인창 함수
+     *
      * @param msg
      * @return 1(true) or 2(false)
      */
@@ -143,11 +147,12 @@ public class Kiosk {
 
     /**
      * OREDER MENU의 선택여부를 판단하는 함수
+     *
      * @param selected
      * @return true | false
      */
     public boolean isSelectOrderMenu(int selected) {
-        return !cart.isEmpty() && (selected > foodTypeSize && selected <= foodTypeSize+orderMenuSize);
+        return !cart.isEmpty() && (selected > foodTypeSize && selected <= foodTypeSize + orderMenuSize);
     }
 
     public void order() {
@@ -177,30 +182,30 @@ public class Kiosk {
         DiscountType selectedDiscountType = discountTypes[choice - 1];
         double finalPrice = selectedDiscountType.applyDiscount(totalPrice);
 
-        System.out.printf("주문이 완료되었습니다. 금액은 %.1f 입니다.\n",finalPrice * 1000);
+        System.out.printf("주문이 완료되었습니다. 금액은 %.1f 입니다.\n", finalPrice * 1000);
         //주문을 완료했으니 장바구니를 비운다
         cart.clear();
     }
 
-    public void removeCart(){
+    public void removeCart() {
         List<MenuItem> items = cart.getItems();
         displayCart(items);
 
         System.out.println("삭제할 메뉴를 선택해주세요");
         int remove = getInputNumber();
-        while(remove < 1 || remove > cart.getSize()){
+        while (remove < 1 || remove > cart.getSize()) {
             System.out.println("올바른 번호를 입력해주세요");
             remove = getInputNumber();
         }
-        MenuItem removedItem = items.get(remove-1);
+        MenuItem removedItem = items.get(remove - 1);
         cart.removeItem(removedItem);
-        System.out.println(removedItem.getName()+"를 장바구니에서 제거했습니다.");
+        System.out.println(removedItem.getName() + "를 장바구니에서 제거했습니다.");
     }
 
-    public void displayCart(List<MenuItem> items){
+    public void displayCart(List<MenuItem> items) {
         System.out.println("[ Orders ]");
         for (int i = 0; i < items.size(); i++) {
-            System.out.printf("%2d. %s   |  %d개\n", i+1, items.get(i),cart.getQuantity(items.get(i)));
+            System.out.printf("%2d. %s   |  %d개\n", i + 1, items.get(i), cart.getQuantity(items.get(i)));
         }
     }
 
